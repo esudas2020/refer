@@ -1,0 +1,1572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageGrafix LMS - Angular 19+ PrimeNG UI Prompts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #0056b3;
+            border-bottom: 4px solid #00a8e8;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1 small {
+            font-size: 0.5em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        h2 {
+            color: #0056b3;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #00a8e8;
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-hours {
+            background: #ff6b35;
+            color: white;
+        }
+
+        .badge-sprint {
+            background: #0056b3;
+            color: white;
+        }
+
+        .badge-components {
+            background: #28a745;
+            color: white;
+        }
+
+        .sprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(400px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .sprint-card {
+            border: 1px solid #e9ecef;
+            border-radius: 16px;
+            padding: 25px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sprint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(0,86,179,0.15);
+            border-color: #0056b3;
+        }
+
+        .sprint-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #0056b3, #00a8e8, #ff6b35);
+        }
+
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sprint-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #0056b3;
+        }
+
+        .sprint-meta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .prompt-box {
+            background: #f8f9fa;
+            border-left: 4px solid #00a8e8;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .prompt-box::before {
+            content: '📋 Cursor Prompt';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #00a8e8;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .components-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .component-tag {
+            background: #e7f5ff;
+            color: #0056b3;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid #0056b3;
+        }
+
+        .feature-check {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .feature-item::before {
+            content: '✓';
+            color: #28a745;
+            font-weight: bold;
+            font-size: 1.2em;
+        }
+
+        .color-palette {
+            display: flex;
+            gap: 15px;
+            margin: 20px 0;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 10px;
+        }
+
+        .color-swatch {
+            flex: 1;
+            height: 60px;
+            border-radius: 8px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            text-shadow: 0 1px 2px rgba(0,0,0,0.2);
+        }
+
+        .swatch-primary { background: #0056b3; }
+        .swatch-secondary { background: #00a8e8; }
+        .swatch-accent { background: #ff6b35; }
+        .swatch-success { background: #28a745; }
+
+        .download-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #0056b3, #00a8e8);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 600;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(0,86,179,0.3);
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(0,86,179,0.4);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #0056b3;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .note-box {
+            background: #fff3cd;
+            border: 1px solid #ff6b35;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .primenav {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            color: #0056b3;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #0056b3;
+            color: white;
+        }
+
+        @media print {
+            .download-section, .download-btn {
+                display: none;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="ui-prompts-content">
+        <h1>
+            🎨 ImageGrafix LMS - Angular 19+ PrimeNG UI Prompts
+            <small>20 Sprints • 40 Hours</small>
+        </h1>
+
+        <div class="primenav">
+            <span class="nav-item">🏠 Dashboard</span>
+            <span class="nav-item">📚 Courses</span>
+            <span class="nav-item">🏭 EAM</span>
+            <span class="nav-item">👥 Users</span>
+            <span class="nav-item">📊 Reports</span>
+            <span class="nav-item">⚙️ Admin</span>
+        </div>
+
+        <div class="color-palette">
+            <div class="color-swatch swatch-primary">#0056b3<br>Primary</div>
+            <div class="color-swatch swatch-secondary">#00a8e8<br>Secondary</div>
+            <div class="color-swatch swatch-accent">#ff6b35<br>Accent</div>
+            <div class="color-swatch swatch-success">#28a745<br>Success</div>
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">20</div>
+                <div class="stat-label">UI Sprints</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">40</div>
+                <div class="stat-label">Hours Total</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">PrimeNG Components</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">100%</div>
+                <div class="stat-label">Enterprise Ready</div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 How to Use:</strong> Copy each prompt into Cursor IDE's Agent mode. Each sprint is designed for 2 hours of development time. All prompts use Angular 19+ standalone components, signals, and PrimeNG enterprise components.
+        </div>
+
+        <h2>📅 Sprint 1: Project Foundation & Architecture</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 0-2</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Foundation</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">Angular 19+</span>
+                <span class="component-tag">PrimeNG</span>
+                <span class="component-tag">PrimeFlex</span>
+                <span class="component-tag">Signals</span>
+            </div>
+            <div class="prompt-box">
+@Agent Using Angular 19+, create a new enterprise LMS project with the following architecture:
+
+1. Initialize Angular 19+ workspace with:
+   - Standalone components (no NgModules)
+   - Signals for state management
+   - Lazy loading for all feature routes
+   - ESBuild for faster builds
+   - Strict type checking
+
+2. Install and configure PrimeNG 19+ with:
+   - All required PrimeNG modules
+   - PrimeFlex for utility CSS
+   - PrimeIcons
+   - Custom theme matching our brand colors:
+     * Primary: #0056b3 (Dark Blue)
+     * Secondary: #00a8e8 (Light Blue)
+     * Accent: #ff6b35 (Orange/Red)
+     * Success: #28a745 (Green)
+
+3. Create the core folder structure:
+   src/app/
+   ├── core/ (singleton services, guards, interceptors)
+   ├── shared/ (shared components, directives, pipes)
+   ├── features/ (lazy-loaded feature modules)
+   ├── layouts/ (main, auth, admin layouts)
+   └── models/ (TypeScript interfaces)
+
+4. Set up the environment configuration with:
+   - API base URLs (ASP.NET Core API)
+   - Feature flags for EAM integration
+   - Production/staging/development configs
+
+5. Create the initial routing structure:
+   - Auth layout (login, forgot password)
+   - Main layout (dashboard, courses, profile)
+   - Admin layout (user management, reports)
+   - EAM layout (work orders, assets, workers)
+
+Use standalone components with OnPush change detection strategy throughout.
+            </div>
+            <div class="feature-check">
+                <div class="feature-item">Standalone components</div>
+                <div class="feature-item">Signal-based state</div>
+                <div class="feature-item">Lazy loading</div>
+                <div class="feature-item">PrimeNG theming</div>
+            </div>
+        </div>
+
+        <h2>📅 Sprint 2: Authentication & Core Services</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 2-4</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Auth</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-card</span>
+                <span class="component-tag">p-inputText</span>
+                <span class="component-tag">p-password</span>
+                <span class="component-tag">p-button</span>
+                <span class="component-tag">p-toast</span>
+            </div>
+            <div class="prompt-box">
+@Agent Based on our ASP.NET Core API authentication system, create a complete authentication module:
+
+1. Create authentication service (core/auth.service.ts) with:
+   - Login method (POST /api/v1/auth/login)
+   - Logout method (POST /api/v1/auth/logout)
+   - Current user method (GET /api/v1/auth/current-user)
+   - Token storage/retrieval using signals
+   - Refresh token mechanism
+
+2. Create login component with PrimeNG:
+   - p-card as container
+   - p-inputText for username/email
+   - p-password with strength meter
+   - p-button with loading state
+   - Form validation with error messages
+   - "Remember me" checkbox
+   - Forgot password link
+   - Copy our existing copyright: "Copyright © ImageGrafix Software FZCO, Dubai UAE"
+
+3. Create HTTP interceptor for:
+   - Adding auth token to requests
+   - Handling 401 responses (redirect to login)
+   - Global error handling with p-toast notifications
+
+4. Create auth guard for protected routes:
+   - Check authentication status using signals
+   - Redirect to login if not authenticated
+   - Role-based access for admin routes
+
+5. Implement logout functionality with session cleanup
+
+Use Angular signals for all reactive state management.
+            </div>
+        </div>
+
+        <h2>📅 Sprint 3: Main Layout & Navigation</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 4-6</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Layout</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-sidebar</span>
+                <span class="component-tag">p-menu</span>
+                <span class="component-tag">p-toolbar</span>
+                <span class="component-tag">p-avatar</span>
+                <span class="component-tag">p-badge</span>
+                <span class="component-tag">p-breadcrumb</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create the main application layout with navigation:
+
+1. Create main layout component with:
+   - p-sidebar (or p-menu) for collapsible sidebar navigation
+   - p-toolbar for top header with:
+     * Logo placeholder (imagegrafix-logo.png)
+     * User profile dropdown with avatar
+     * Notifications bell with p-badge
+     * Search bar with p-autocomplete
+   - p-breadcrumb for navigation context
+
+2. Implement the navigation menu structure:
+   - Dashboard (dashboard)
+   - Courses (courses)
+   - EAM Section (with submenu):
+     * Work Orders
+     * Assets
+     * Workers
+     * Work Order Courses
+   - Reports
+   - User Profile
+   - Admin Panel (if user has admin role)
+
+3. Create responsive behavior:
+   - Sidebar collapses to icons on tablet
+   - Bottom navigation or hamburger menu on mobile
+   - Use PrimeFlex for responsive utilities
+
+4. Implement dynamic menu items based on user permissions
+5. Add smooth transitions and animations using Angular animations
+
+Match the branding colors exactly: primary #0056b3, secondary #00a8e8.
+            </div>
+        </div>
+
+        <h2>📅 Sprint 4: Dashboard Implementation</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 6-8</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Dashboard</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-card</span>
+                <span class="component-tag">p-chart</span>
+                <span class="component-tag">p-timeline</span>
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-tag</span>
+                <span class="component-tag">p-speedDial</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create a comprehensive dashboard with PrimeNG components:
+
+1. Top Statistics Cards (p-card with icons):
+   - Total courses (p-badge with count)
+   - Active users/employees
+   - Pending work orders
+   - Certificates issued
+
+2. Charts Section using p-chart:
+   - Line chart for course completions over time
+   - Bar chart for department-wise training progress
+   - Pie chart for course categories distribution
+   - Doughnut chart for assessment pass rates
+
+3. Recent Activity Feed:
+   - p-timeline showing:
+     * New course enrollments
+     * Certificate generations
+     * Work order assignments
+     * Assessment completions
+
+4. Upcoming Deadlines:
+   - p-table with:
+     * Course name
+     * Due date (with color coding for approaching dates)
+     * Employee/Student name
+     * Status (p-tag with [severity])
+
+5. Quick Actions:
+   - p-speedDial for common actions:
+     * Create new course
+     * Assign work order
+     * Generate report
+     * Add user
+
+Connect to the ASP.NET Core API endpoints: GET /api/v1/dashboard for real data.
+            </div>
+        </div>
+
+        <h2>📅 Sprint 5: Course Catalog & Listing</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 8-10</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Courses</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-dataView</span>
+                <span class="component-tag">p-paginator</span>
+                <span class="component-tag">p-sortIcon</span>
+                <span class="component-tag">p-inputGroup</span>
+                <span class="component-tag">p-slider</span>
+                <span class="component-tag">p-multiSelect</span>
+                <span class="component-tag">p-rating</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create a complete course catalog system:
+
+1. Create course list component with:
+   - p-dataView for flexible course display (grid/list toggle)
+   - p-paginator for server-side pagination
+   - p-sortIcon for sorting by name, date, popularity
+   - Search with p-inputGroup and debounce (300ms)
+
+2. Advanced filtering sidebar:
+   - p-slider for price/duration range
+   - p-multiSelect for categories
+   - p-dropdown for difficulty level
+   - p-calendar for date range
+   - Active filters display with p-chips
+
+3. Course card design (p-card):
+   - Course image placeholder
+   - Title with routerLink to details
+   - Category badge
+   - Instructor name
+   - Rating stars (p-rating)
+   - Enrollment count
+   - Duration and lessons count
+   - Progress bar if enrolled
+   - "Enroll Now" or "Continue" button
+
+4. Implement API integration:
+   - GET /api/v1/courses with query params
+   - Handle loading states with p-progressSpinner
+   - Error handling with p-message
+   - Empty state with illustration
+
+5. Add favorites/bookmark functionality
+            </div>
+        </div>
+
+        <h2>📅 Sprint 6: Course Details & Learning Experience</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 10-12</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Learning</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-tabView</span>
+                <span class="component-tag">p-accordion</span>
+                <span class="component-tag">p-chip</span>
+                <span class="component-tag">p-avatar</span>
+                <span class="component-tag">p-progressSpinner</span>
+                <span class="component-tag">p-carousel</span>
+                <span class="component-tag">p-editor</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create an immersive course detail page with learning experience:
+
+1. Course header section:
+   - Course title and description
+   - Instructor info with avatar (p-avatar)
+   - Category tags (p-chip)
+   - Rating and reviews count
+   - Enrollment button (with state: enrolled/not enrolled)
+   - Share buttons (p-buttonset)
+
+2. Course content tabs (p-tabView):
+   - Overview: Learning objectives, requirements, target audience
+   - Curriculum: Expandable sections with p-accordion
+     * Module titles
+     * Lesson list with duration
+     * Video/preview indicators
+     * Completion checkmarks
+   - Reviews: List of reviews with p-rating
+   - Instructors: Instructor profile cards
+
+3. Video player integration:
+   - Video.js or Plyr integration
+   - Course progress tracking
+   - Notes section with p-editor
+   - Bookmarks for important moments
+
+4. Sidebar with course info:
+   - Progress circle (p-progressSpinner)
+   - Certificate download (if completed)
+   - Resources list (PDFs, links)
+   - Related courses carousel (p-carousel)
+
+5. API integration:
+   - GET /api/v1/courses/{id}
+   - GET /api/v1/courses/{id}/progress
+   - POST /api/v1/courses/{id}/enroll
+            </div>
+        </div>
+
+        <h2>📅 Sprint 7: EAM Integration - Work Orders</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 12-14</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">EAM</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-tag</span>
+                <span class="component-tag">p-progressBar</span>
+                <span class="component-tag">p-timeline</span>
+                <span class="component-tag">p-button</span>
+            </div>
+            <div class="prompt-box">
+@Agent Implement the EAM Work Order Management system:
+
+1. Create work orders dashboard component:
+
+   Summary cards:
+   - Total work orders
+   - Pending training
+   - Completed training
+   - Overdue assignments
+
+2. Work orders table (p-table) with:
+   Columns:
+   - Work order ID (with link to details)
+   - Title/description
+   - Assigned assets
+   - Assigned employees
+   - Required courses (with p-tag)
+   - Status (p-tag with severity)
+   - Priority (p-tag)
+   - Due date
+   - Progress (p-progressBar)
+
+   Features:
+   - Global search
+   - Column filter
+   - Export to CSV/PDF (p-button)
+   - Row grouping by asset/employee
+
+3. Work order detail view:
+   - Tabs for Overview, Assets, Employees, Courses
+   - p-timeline for training progress
+   - Course recommendation based on asset type
+   - Bulk assign courses to employees
+
+4. API integration:
+   - GET /api/v1/eam/work-orders
+   - GET /api/v1/eam/work-orders/{id}
+   - POST /api/v1/eam/work-orders/{id}/assign-courses
+            </div>
+        </div>
+
+        <h2>📅 Sprint 8: EAM Integration - Assets & Workers</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 14-16</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">EAM</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-dataView</span>
+                <span class="component-tag">p-chip</span>
+                <span class="component-tag">p-orderList</span>
+                <span class="component-tag">p-tag</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive Asset and Worker management interfaces:
+
+1. Assets Management:
+
+   Asset list (p-table) with:
+   - Asset ID/QR code
+   - Name and description
+   - Type/category
+   - Location
+   - Assigned worker
+   - Required certifications (p-tag)
+   - Status (operational/maintenance)
+   - Last training date
+
+   Asset detail view:
+   - Asset information
+   - Assigned workers history
+   - Required courses for this asset
+   - Completed training records
+   - Upcoming certification renewals
+   - Related work orders
+
+2. Workers/Employees Management:
+
+   Worker list (p-dataView with cards):
+   - Name and avatar
+   - Role/position
+   - Department
+   - Assigned assets count
+   - Completed courses count
+   - Certifications (p-chip)
+   - Training progress (p-progressBar)
+
+   Worker profile:
+   - Personal information
+   - Assigned assets (p-orderList)
+   - Enrolled courses (p-table)
+   - Certifications with expiry dates
+   - Training history timeline
+   - Performance metrics
+
+3. API integration:
+   - GET /api/v1/eam/assets
+   - GET /api/v1/eam/workers
+   - GET /api/v1/eam/roles
+            </div>
+        </div>
+
+        <h2>📅 Sprint 9: User Management & Profiles</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 16-18</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Users</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-avatar</span>
+                <span class="component-tag">p-fileUpload</span>
+                <span class="component-tag">p-timeline</span>
+                <span class="component-tag">p-tag</span>
+                <span class="component-tag">p-calendar</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive user management system:
+
+1. User list with advanced features:
+   - p-table with:
+     * Avatar and name
+     * Email
+     * Role (admin, instructor, employee)
+     * Department
+     * Status (active/inactive)
+     * Last login
+     * Actions menu (edit, disable, reset password)
+
+   Features:
+   - Column visibility toggle
+   - Global filter
+   - Role-based filtering
+   - Bulk operations (assign courses, change role)
+   - Inline editing for quick updates
+
+2. User profile page:
+   - Profile header with avatar upload (p-fileUpload)
+   - Tabs for:
+     * Personal info (p-inputText, p-calendar)
+     * Security (password change)
+     * Course history (p-timeline)
+     * Certificates (p-card grid)
+     * Activity log (p-tag timeline)
+
+3. Role management:
+   - Role list with permissions
+   - Create/edit roles
+   - Assign permissions to roles
+   - User-role mapping
+
+4. API integration:
+   - GET /api/v1/users
+   - GET /api/v1/users/{id}
+   - PUT /api/v1/users/{id}
+   - POST /api/v1/users
+   - DELETE /api/v1/users/{id}
+            </div>
+        </div>
+
+        <h2>📅 Sprint 10: Reports & Analytics</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 18-20</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Reports</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-listbox</span>
+                <span class="component-tag">p-panel</span>
+                <span class="component-tag">p-calendar</span>
+                <span class="component-tag">p-chart</span>
+                <span class="component-tag">p-table</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive reporting and analytics dashboard:
+
+1. Report selection panel:
+   - p-listbox for report types:
+     * Course completion reports
+     * User progress reports
+     * Assessment results
+     * Certificate reports
+     * EAM training compliance
+     * Department-wise analytics
+
+2. Report filters (p-panel):
+   - Date range picker (p-calendar)
+   - Multi-select for courses/users/departments
+   - Format selector (PDF, Excel, CSV)
+   - Schedule report toggle
+
+3. Data visualization:
+   - Interactive charts with p-chart:
+     * Stacked bar charts for progress
+     * Line charts for trends
+     * Heat maps for activity
+   - Data tables with:
+     * Aggregated statistics
+     * Drill-down capability
+     * Export functionality
+
+4. Report viewer:
+   - Preview report before export
+   - Print-friendly layout
+   - Email report option
+   - Save report template
+
+5. Scheduled reports:
+   - Create schedule (daily/weekly/monthly)
+   - Distribution list
+   - Email templates
+
+API endpoints: GET /api/v1/reports/aggregate, /reports/course, /reports/user
+            </div>
+        </div>
+
+        <h2>📅 Sprint 11: Assessment & Testing System</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 20-22</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Assessments</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-steps</span>
+                <span class="component-tag">p-orderList</span>
+                <span class="component-tag">p-badge</span>
+                <span class="component-tag">p-progressBar</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive assessment and testing system:
+
+1. Test list view:
+   - p-table with:
+     * Test name
+     * Course associated
+     * Questions count
+     * Time limit
+     * Passing score
+     * Attempts allowed
+     * Status (published/draft)
+
+2. Test creation/editing:
+   - Multi-step wizard (p-steps):
+     * Basic info (title, description, time limit)
+     * Questions builder:
+       - Question types (multiple choice, true/false, essay)
+       - Drag-drop reordering (p-orderList)
+       - Points per question
+       - Add media to questions
+     * Settings (passing score, attempts, feedback)
+     * Preview mode
+
+3. Test taking interface:
+   - Timer with p-badge countdown
+   - Question navigation sidebar
+   - Progress indicator
+   - Save for later
+   - Submit with confirmation dialog
+
+4. Results and feedback:
+   - Score display with p-progressBar
+   - Correct/incorrect answers review
+   - Certificate generation on passing
+   - Retake option if failed
+
+5. API integration with Learning entities
+            </div>
+        </div>
+
+        <h2>📅 Sprint 12: Certificate Management</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 22-24</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Certificates</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-galleria</span>
+                <span class="component-tag">p-orderList</span>
+                <span class="component-tag">p-dataView</span>
+                <span class="component-tag">p-fileUpload</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create certificate generation and management system:
+
+1. Certificate templates:
+   - p-galleria for template preview
+   - Template editor with:
+     * Background image upload
+     * Drag-drop fields (p-orderList)
+     * Font and color customization
+     * Placeholder variables:
+       - {{student_name}}
+       - {{course_name}}
+       - {{completion_date}}
+       - {{expiry_date}}
+       - {{instructor_name}}
+
+2. Certificate generation:
+   - Bulk generation for completed courses
+   - Individual generation on course completion
+   - PDF generation with jsPDF or similar
+   - Email certificate to student
+   - Blockchain verification option (optional)
+
+3. Certificate gallery:
+   - p-dataView of earned certificates
+   - Download as PDF
+   - Share on LinkedIn
+   - Verify authenticity
+
+4. Expiry management:
+   - Certificate expiry tracking
+   - Renewal reminders
+   - Recertification courses
+
+5. API integration with certificate endpoints
+            </div>
+        </div>
+
+        <h2>📅 Sprint 13: SCORM Player Integration</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 24-26</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">SCORM</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-fileUpload</span>
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-progressBar</span>
+                <span class="component-tag">p-card</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create SCORM package player and management system:
+
+1. SCORM package management:
+   - Upload SCORM packages (p-fileUpload)
+   - Package list with:
+     * Name and version
+     * Course association
+     * Launch count
+     * Completion data
+     * Compatibility info
+
+2. SCORM player component:
+   - iframe or Angular component for SCORM content
+   - SCORM API communication bridge
+   - Progress tracking (p-progressBar)
+   - Bookmarking (save position)
+   - Completion status sync
+
+3. SCORM data reporting:
+   - Interaction data table
+   - Score tracking
+   - Time spent analytics
+   - Completion rates by SCO
+
+4. API integration with SCORM tracking endpoints
+            </div>
+        </div>
+
+        <h2>📅 Sprint 14: Notification System</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 26-28</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Notifications</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-badge</span>
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-listbox</span>
+                <span class="component-tag">p-dropdown</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive notification system:
+
+1. Real-time notifications:
+   - SignalR client connection
+   - Notification bell with p-badge
+   - Dropdown panel with:
+     * Unread count
+     * Notification list with timestamps
+     * Type icons (course, assessment, certificate, work order)
+     * Mark as read
+     * View all link
+
+2. Notification center:
+   - p-table of all notifications
+   - Filter by type
+   - Date range filter
+   - Read/unread filter
+   - Bulk actions (mark read, delete)
+
+3. Notification preferences:
+   - Channel preferences (email, in-app, SMS)
+   - Types to receive
+   - Frequency (immediate, daily digest, weekly)
+   - Quiet hours
+
+4. Email notifications:
+   - Template system integration with backend
+   - Preference-based sending
+            </div>
+        </div>
+
+        <h2>📅 Sprint 15: Admin Panel & System Settings</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 28-30</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Admin</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-card</span>
+                <span class="component-tag">p-tabView</span>
+                <span class="component-tag">p-table</span>
+                <span class="component-tag">p-inputSwitch</span>
+                <span class="component-tag">p-fileUpload</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create comprehensive admin panel:
+
+1. System dashboard:
+   - System health cards:
+     * Active users
+     * Server load (from API)
+     * Database size
+     * API response times
+   - Recent activity log
+   - Error logs with severity
+
+2. Configuration management:
+   - Tabbed settings (p-tabView):
+     * General (site name, logo, theme)
+     * Security (password policy, 2FA)
+     * Email (SMTP settings)
+     * API (rate limiting, keys)
+     * Backup settings
+
+3. Plugin management:
+   - List installed plugins (p-table)
+   - Enable/disable plugins
+   - Plugin settings
+   - Upload new plugin
+
+4. Maintenance tools:
+   - Cache clear
+   - Database optimization
+   - Log viewer
+   - System update checker
+
+5. Audit logs:
+   - User actions tracking
+   - Login attempts
+   - Configuration changes
+   - Export logs
+            </div>
+        </div>
+
+        <h2>📅 Sprint 16: Performance Optimization & Testing</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 30-32</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Performance</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-virtualScroller</span>
+                <span class="component-tag">lazy loading</span>
+                <span class="component-tag">Jasmine</span>
+                <span class="component-tag">Playwright</span>
+            </div>
+            <div class="prompt-box">
+@Agent Perform comprehensive performance optimization and testing:
+
+1. Implement performance optimizations:
+   - Lazy load all feature modules
+   - Virtual scroll for long lists (p-virtualScroller)
+   - Image optimization with lazy loading
+   - HTTP cache interceptors
+   - Service workers for offline capability
+
+2. Bundle optimization:
+   - Analyze bundle with source-map-explorer
+   - Implement dynamic imports
+   - Optimize PrimeNG imports (use individual modules)
+   - Tree shaking configuration
+
+3. Write comprehensive tests:
+   - Unit tests for services (Jasmine)
+   - Component tests (TestBed)
+   - E2E tests with Playwright
+   - Test coverage for critical paths:
+     * Authentication flow
+     * Course enrollment
+     * EAM work order assignment
+     * Certificate generation
+
+4. Performance monitoring:
+   - Core Web Vitals tracking
+   - API response time monitoring
+   - Error tracking
+   - User timing marks
+
+5. Create production build configuration with optimizations
+            </div>
+        </div>
+
+        <h2>📅 Sprint 17: Mobile Responsiveness & PWA</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 32-34</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Mobile</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">p-bottomSheet</span>
+                <span class="component-tag">p-tabMenu</span>
+                <span class="component-tag">PrimeFlex</span>
+                <span class="component-tag">Service Worker</span>
+            </div>
+            <div class="prompt-box">
+@Agent Make the application fully responsive and add PWA capabilities:
+
+1. Mobile-first responsive design:
+   - Test all components on mobile viewports
+   - Implement touch-friendly interactions:
+     * Swipe gestures for carousels
+     * Pull-to-refresh for lists
+     * Bottom sheets for actions (p-bottomSheet)
+   - Responsive tables (p-table with scrollable/collapsed)
+
+2. Progressive Web App:
+   - Add manifest.json
+   - Service worker for offline caching
+   - Add to home screen prompt
+   - Push notifications
+   - Background sync for offline actions
+
+3. Mobile navigation:
+   - Bottom navigation bar (p-tabMenu)
+   - Hamburger menu for sidebar
+   - Back button handling
+   - Deep linking support
+
+4. Performance for mobile:
+   - Optimized images
+   - Reduced bundle size
+   - Minimal animations on low-end devices
+   - Data saver mode
+
+Test on multiple device sizes (iOS, Android, tablets).
+            </div>
+        </div>
+
+        <h2>📅 Sprint 18: Real-time Features with SignalR</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 34-36</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Real-time</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">@microsoft/signalr</span>
+                <span class="component-tag">p-progressSpinner</span>
+                <span class="component-tag">p-toast</span>
+                <span class="component-tag">p-badge</span>
+            </div>
+            <div class="prompt-box">
+@Agent Implement real-time features using SignalR:
+
+1. Create SignalR service:
+   - Hub connection management
+   - Reconnection logic
+   - Message handlers
+   - Connection state tracking with signals
+
+2. Real-time notifications:
+   - Live notification updates
+   - Toast messages for important events
+   - Badge updates on notification icon
+   - Sound alerts (optional)
+
+3. Live progress tracking:
+   - Course progress updates in real-time
+   - Work order status changes
+   - Assessment submission updates
+   - Certificate generation notifications
+
+4. Collaborative features:
+   - Live user presence (online/offline)
+   - Typing indicators in messaging
+   - Live activity feed
+   - Real-time dashboard updates
+
+5. Connection management:
+   - Handle disconnections gracefully
+   - Reconnect with exponential backoff
+   - Show connection status indicator
+   - Queue messages when offline
+            </div>
+        </div>
+
+        <h2>📅 Sprint 19: Advanced PrimeNG Customization</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 36-38</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Theming</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">SCSS</span>
+                <span class="component-tag">PrimeNG Theme</span>
+                <span class="component-tag">CSS Variables</span>
+                <span class="component-tag">Dark Mode</span>
+            </div>
+            <div class="prompt-box">
+@Agent Create advanced PrimeNG theme customization:
+
+1. Create custom theme SCSS:
+   - Override PrimeNG design tokens
+   - Custom component styles matching brand
+   - Dark mode support with media query
+   - High contrast mode for accessibility
+
+2. Implement theme switcher:
+   - Light/dark mode toggle
+   - Save preference in localStorage
+   - Apply theme without flicker
+   - Transition animations
+
+3. Custom component variants:
+   - Branded button styles
+   - Custom card designs for LMS
+   - Animated progress indicators
+   - Loading skeletons (p-skeleton)
+
+4. Responsive typography:
+   - Fluid typography scales
+   - Mobile-optimized font sizes
+   - Custom font integration
+   - RTL support ready
+
+5. Accessibility improvements:
+   - ARIA labels on all components
+   - Keyboard navigation
+   - Focus indicators
+   - Screen reader testing
+            </div>
+        </div>
+
+        <h2>📅 Sprint 20: Final Integration & Documentation</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 38-40</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Final</span>
+                    <span class="badge badge-hours">2 hours</span>
+                </div>
+            </div>
+            <div class="components-list">
+                <span class="component-tag">Storybook</span>
+                <span class="component-tag">Compodoc</span>
+                <span class="component-tag">README</span>
+                <span class="component-tag">Demo</span>
+            </div>
+            <div class="prompt-box">
+@Agent Complete the application with final integration and documentation:
+
+1. Create component documentation:
+   - Set up Storybook for UI components
+   - Document all shared components
+   - Show usage examples
+   - Interactive playground
+
+2. Generate technical documentation:
+   - Compodoc for Angular architecture
+   - API integration guide
+   - Environment setup guide
+   - Deployment instructions
+
+3. Create demo data and walkthrough:
+   - Sample courses and users
+   - Guided tour of features
+   - Screenshots for documentation
+   - Video recording script
+
+4. Performance audit:
+   - Lighthouse scores (target >90)
+   - Bundle size analysis
+   - First contentful paint optimization
+   - Accessibility audit
+
+5. Final integration with ASP.NET Core API:
+   - Test all endpoints
+   - Error handling review
+   - Loading states complete
+   - Production build verification
+
+6. Create deployment package:
+   - Production build
+   - Docker configuration
+   - Environment variables
+   - CI/CD ready
+            </div>
+        </div>
+
+        <h2>📋 PrimeNG Components Used</h2>
+        <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 10px; margin: 20px 0;">
+            <span class="component-tag">p-accordion</span>
+            <span class="component-tag">p-avatar</span>
+            <span class="component-tag">p-badge</span>
+            <span class="component-tag">p-bottomSheet</span>
+            <span class="component-tag">p-breadcrumb</span>
+            <span class="component-tag">p-button</span>
+            <span class="component-tag">p-buttonset</span>
+            <span class="component-tag">p-calendar</span>
+            <span class="component-tag">p-card</span>
+            <span class="component-tag">p-carousel</span>
+            <span class="component-tag">p-chart</span>
+            <span class="component-tag">p-chip</span>
+            <span class="component-tag">p-chips</span>
+            <span class="component-tag">p-dataView</span>
+            <span class="component-tag">p-dialog</span>
+            <span class="component-tag">p-dropdown</span>
+            <span class="component-tag">p-editor</span>
+            <span class="component-tag">p-fileUpload</span>
+            <span class="component-tag">p-galleria</span>
+            <span class="component-tag">p-inputGroup</span>
+            <span class="component-tag">p-inputText</span>
+            <span class="component-tag">p-inputSwitch</span>
+            <span class="component-tag">p-listbox</span>
+            <span class="component-tag">p-menu</span>
+            <span class="component-tag">p-message</span>
+            <span class="component-tag">p-multiSelect</span>
+            <span class="component-tag">p-orderList</span>
+            <span class="component-tag">p-paginator</span>
+            <span class="component-tag">p-panel</span>
+            <span class="component-tag">p-password</span>
+            <span class="component-tag">p-progressBar</span>
+            <span class="component-tag">p-progressSpinner</span>
+            <span class="component-tag">p-rating</span>
+            <span class="component-tag">p-sidebar</span>
+            <span class="component-tag">p-skeleton</span>
+            <span class="component-tag">p-slider</span>
+            <span class="component-tag">p-sortIcon</span>
+            <span class="component-tag">p-speedDial</span>
+            <span class="component-tag">p-steps</span>
+            <span class="component-tag">p-table</span>
+            <span class="component-tag">p-tabMenu</span>
+            <span class="component-tag">p-tabView</span>
+            <span class="component-tag">p-tag</span>
+            <span class="component-tag">p-timeline</span>
+            <span class="component-tag">p-toast</span>
+            <span class="component-tag">p-toolbar</span>
+            <span class="component-tag">p-virtualScroller</span>
+        </div>
+
+        <div class="note-box">
+            <strong>🎯 Important Notes:</strong>
+            <ul style="margin-top: 10px; margin-left: 20px;">
+                <li>All components use <strong>standalone</strong> architecture (no NgModules)</li>
+                <li>State management uses <strong>Angular Signals</strong> exclusively</li>
+                <li>All components use <strong>OnPush</strong> change detection strategy</li>
+                <li>API integration assumes ASP.NET Core backend endpoints</li>
+                <li>Each sprint is designed for <strong>2 hours</strong> of focused development in Cursor</li>
+                <li>Copy prompts exactly into Cursor's <strong>Agent mode</strong></li>
+            </ul>
+        </div>
+
+        <div class="download-section">
+            <h3 style="color: #0056b3; margin-bottom: 15px;">📥 Download UI Prompts</h3>
+            <p style="margin-bottom: 20px;">Save this HTML file to keep your complete Angular 19+ PrimeNG UI prompts</p>
+            <button onclick="downloadUIPrompts()" class="download-btn">⬇️ Download UI Prompts HTML</button>
+        </div>
+
+        <footer style="margin-top: 40px; padding-top: 20px; border-top: 1px solid #e9ecef; text-align: center; color: #666;">
+            <p>ImageGrafix LMS - Angular 19+ PrimeNG UI Migration Prompts</p>
+            <p>20 Sprints • 40 Hours • Enterprise Grade • Cursor IDE Optimized</p>
+        </footer>
+    </div>
+
+    <script>
+        function downloadUIPrompts() {
+            const content = document.getElementById('ui-prompts-content').innerHTML;
+            const styles = document.querySelector('style').innerHTML;
+            
+            const html = `<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageGrafix LMS - Angular 19+ PrimeNG UI Prompts</title>
+    <style>${styles}</style>
+</head>
+<body>
+    <div class="container">${content}</div>
+</body>
+</html>`;
+            
+            const blob = new Blob([html], { type: 'text/html' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'ImageGrafix_Angular_UI_Prompts.html';
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+        }
+    </script>
+</body>
+</html>

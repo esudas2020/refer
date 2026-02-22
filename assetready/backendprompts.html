@@ -1,0 +1,417 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ImageGrafix LMS - ASP.NET Core Backend Prompts</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;
+            line-height: 1.6;
+            color: #333;
+            background: linear-gradient(135deg, #2c3e50 0%, #3498db 100%);
+            padding: 20px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            background: white;
+            padding: 30px;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        h1 {
+            color: #2c3e50;
+            border-bottom: 4px solid #3498db;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            font-size: 2.5em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        h1 small {
+            font-size: 0.5em;
+            color: #666;
+            font-weight: normal;
+        }
+
+        h2 {
+            color: #2c3e50;
+            margin: 40px 0 20px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #e9ecef;
+            font-size: 1.8em;
+        }
+
+        h3 {
+            color: #3498db;
+            margin: 0 0 15px 0;
+            font-size: 1.4em;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .badge {
+            display: inline-block;
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .badge-hours {
+            background: #e74c3c;
+            color: white;
+        }
+
+        .badge-sprint {
+            background: #2c3e50;
+            color: white;
+        }
+
+        .badge-tech {
+            background: #3498db;
+            color: white;
+        }
+
+        .sprint-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(450px, 1fr));
+            gap: 25px;
+            margin: 30px 0;
+        }
+
+        .sprint-card {
+            border: 1px solid #e9ecef;
+            border-radius: 16px;
+            padding: 25px;
+            background: white;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .sprint-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 12px 20px rgba(52,152,219,0.15);
+            border-color: #3498db;
+        }
+
+        .sprint-card::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, #2c3e50, #3498db, #e74c3c);
+        }
+
+        .sprint-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .sprint-title {
+            font-size: 1.3em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .sprint-meta {
+            display: flex;
+            gap: 10px;
+        }
+
+        .prompt-box {
+            background: #f8f9fa;
+            border-left: 4px solid #3498db;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            font-family: 'Courier New', monospace;
+            font-size: 0.95em;
+            white-space: pre-wrap;
+            position: relative;
+        }
+
+        .prompt-box::before {
+            content: '⚙️ Cursor Backend Prompt';
+            position: absolute;
+            top: -10px;
+            left: 20px;
+            background: #3498db;
+            color: white;
+            padding: 2px 12px;
+            border-radius: 20px;
+            font-size: 0.8em;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        }
+
+        .tech-list {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin: 15px 0;
+        }
+
+        .tech-tag {
+            background: #e8f4fd;
+            color: #2c3e50;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 0.85em;
+            font-weight: 500;
+            border: 1px solid #3498db;
+        }
+
+        .feature-check {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+            margin: 15px 0;
+        }
+
+        .feature-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 0.95em;
+        }
+
+        .feature-item::before {
+            content: '⚡';
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .architecture-box {
+            background: #2c3e50;
+            color: white;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+            font-family: 'Courier New', monospace;
+        }
+
+        .download-section {
+            text-align: center;
+            margin: 40px 0;
+            padding: 30px;
+            background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+            border-radius: 16px;
+        }
+
+        .download-btn {
+            display: inline-block;
+            background: linear-gradient(90deg, #2c3e50, #3498db);
+            color: white;
+            padding: 15px 40px;
+            text-decoration: none;
+            border-radius: 40px;
+            font-weight: 600;
+            margin: 20px 0;
+            border: none;
+            cursor: pointer;
+            font-size: 1.2em;
+            box-shadow: 0 4px 15px rgba(44,62,80,0.3);
+            transition: all 0.3s;
+        }
+
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(44,62,80,0.4);
+        }
+
+        .stats-bar {
+            display: flex;
+            justify-content: space-around;
+            margin: 30px 0;
+            padding: 20px;
+            background: #f8f9fa;
+            border-radius: 12px;
+        }
+
+        .stat-item {
+            text-align: center;
+        }
+
+        .stat-value {
+            font-size: 2em;
+            font-weight: 700;
+            color: #2c3e50;
+        }
+
+        .stat-label {
+            color: #666;
+            font-size: 0.9em;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+        }
+
+        .note-box {
+            background: #fff3cd;
+            border: 1px solid #e74c3c;
+            padding: 20px;
+            border-radius: 12px;
+            margin: 30px 0;
+        }
+
+        .code-block {
+            background: #1e1e1e;
+            color: #d4d4d4;
+            padding: 15px;
+            border-radius: 6px;
+            font-family: 'Courier New', monospace;
+            font-size: 0.9em;
+            overflow-x: auto;
+            margin: 15px 0;
+        }
+
+        .nav-menu {
+            display: flex;
+            gap: 10px;
+            margin-bottom: 20px;
+            flex-wrap: wrap;
+        }
+
+        .nav-item {
+            padding: 8px 16px;
+            background: #f8f9fa;
+            border-radius: 20px;
+            color: #2c3e50;
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.2s;
+        }
+
+        .nav-item:hover {
+            background: #2c3e50;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+    <div class="container" id="backend-prompts-content">
+        <h1>
+            ⚙️ ImageGrafix LMS - ASP.NET Core Backend Prompts
+            <small>20 Sprints • 40 Hours</small>
+        </h1>
+
+        <div class="nav-menu">
+            <span class="nav-item">🗄️ Database</span>
+            <span class="nav-item">🔧 API Core</span>
+            <span class="nav-item">🔐 Auth</span>
+            <span class="nav-item">📚 Courses</span>
+            <span class="nav-item">🏭 EAM</span>
+            <span class="nav-item">📊 Reports</span>
+            <span class="nav-item">🐳 Docker</span>
+        </div>
+
+        <div class="architecture-box">
+            <strong>📁 Solution Structure:</strong><br><br>
+            ImageGrafixLMS/<br>
+            ├── src/<br>
+            │   ├── ImageGrafixLMS.Domain/        # Entities, Enums, Interfaces<br>
+            │   ├── ImageGrafixLMS.Application/    # DTOs, Commands, Queries, MediatR<br>
+            │   ├── ImageGrafixLMS.Infrastructure/ # EF Core, Repositories, Email, Redis<br>
+            │   └── ImageGrafixLMS.API/            # Controllers, Middleware, Program.cs<br>
+            ├── tests/<br>
+            │   ├── ImageGrafixLMS.UnitTests/<br>
+            │   └── ImageGrafixLMS.IntegrationTests/<br>
+            └── docker/
+        </div>
+
+        <div class="stats-bar">
+            <div class="stat-item">
+                <div class="stat-value">20</div>
+                <div class="stat-label">Backend Sprints</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">40</div>
+                <div class="stat-label">Hours Total</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">50+</div>
+                <div class="stat-label">API Endpoints</div>
+            </div>
+            <div class="stat-item">
+                <div class="stat-value">PostgreSQL</div>
+                <div class="stat-label">Database</div>
+            </div>
+        </div>
+
+        <div class="note-box">
+            <strong>🚀 How to Use:</strong> Copy each prompt into Cursor IDE's Agent mode. Each sprint is designed for 2 hours of development time. All prompts use ASP.NET Core 8, Entity Framework Core, and PostgreSQL.
+        </div>
+
+        <!-- Sprint 1-2 -->
+        <h2>📅 Sprint 1-2: PostgreSQL Schema & Database Migration</h2>
+        <div class="sprint-card">
+            <div class="sprint-header">
+                <span class="sprint-title">Hours 0-4</span>
+                <div class="sprint-meta">
+                    <span class="badge badge-sprint">Database</span>
+                    <span class="badge badge-hours">4 hours</span>
+                </div>
+            </div>
+            <div class="tech-list">
+                <span class="tech-tag">PostgreSQL 15</span>
+                <span class="tech-tag">Entity Framework Core</span>
+                <span class="tech-tag">Alembic</span>
+                <span class="tech-tag">JSONB</span>
+                <span class="tech-tag">GIN Indexes</span>
+            </div>
+            <div class="prompt-box">
+@Agent First, analyze the existing SQLite/MySQL schema and create an optimized PostgreSQL schema for ASP.NET Core:
+
+1. Run database analysis on existing imagegrafix_lms database:
+   - Extract all table structures from 200+ Doctrine entities
+   - Map relationships and identify optimization opportunities
+   - Document all constraints and indexes
+
+2. Create optimized PostgreSQL 15+ schema with:
+
+   ```sql
+   -- Enable UUID extension
+   CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+   CREATE EXTENSION IF NOT EXISTS "pg_trgm";
+
+   -- Users table with JSONB for flexible attributes
+   CREATE TABLE users (
+       id UUID PRIMARY KEY DEFAULT uuid_generate_v4(),
+       username VARCHAR(100) UNIQUE NOT NULL,
+       email VARCHAR(255) UNIQUE NOT NULL,
+       password_hash VARCHAR(255) NOT NULL,
+       profile_data JSONB DEFAULT '{}',
+       preferences JSONB DEFAULT '{}',
+       metadata JSONB DEFAULT '{}',
+       refresh_token VARCHAR(500),
+       refresh_token_expiry TIMESTAMPTZ,
+       created_at TIMESTAMPTZ DEFAULT NOW(),
+       updated_at TIMESTAMPTZ DEFAULT NOW(),
+       last_login TIMESTAMPTZ,
+       is_active BOOLEAN DEFAULT true
+   );
+
+   -- Create indexes
+   CREATE INDEX idx_users_email ON users(email);
+   CREATE INDEX idx_users_profile ON users USING GIN (profile_data);
